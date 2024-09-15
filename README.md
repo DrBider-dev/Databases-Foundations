@@ -1,5 +1,5 @@
 
-# Avances del Workshop
+# Avances del Workshop #1
 
 Vale bro, estuve adelantando un poco el taller asi que dejare los avances por aca XD, en el documento de word esta toda la informacion que tenemos hasta el momento, incluyendo las respuestas de los usuarios, los requerimientos que quedaron como definitivos, hice los user stories :) y me quede armando las frases para las relaciones del diagramita que andaba haciendo en el draw.io todavia no estan todas, y en el documento hay algunas subrayadas en verde porque no estoy seguro de si asi estan bien
 
