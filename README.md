@@ -5,8 +5,8 @@ The Database Fundamentals course introduces key concepts for database design, im
 
 ## Index
 
-- [What will you find in this repository?](#What-will-you-find-in-this-repository?)
-- [How to clone this repository?](#How-to-clone-this-repository?)
+- [What will you find in this repository?](#What-will-you-find-in-this-repository)
+- [How to clone this repository?](#How-to-clone-this-repository)
 - [Members](#Members)
 
 
