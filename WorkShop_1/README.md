@@ -1,15 +1,21 @@
+# Project: Residential Complex Management
 
-# Avances del Workshop #1
+## Introduction
 
-Vale bro, estuve adelantando un poco el taller asi que dejare los avances por aca XD, en el documento de word esta toda la informacion que tenemos hasta el momento, incluyendo las respuestas de los usuarios, los requerimientos que quedaron como definitivos, hice los user stories :) tambien complete las relaciones y basicamente deje todo listo hasta el paso 6 del MER, si gustas cambiar cosas bro dale sin miedo :3
+The aim of this project is to design a database for managing a residential complex. The main objective is to facilitate the management of residents, their guests, the reservation and usage of common areas, as well as effective communication between residents and the administration of the complex.
 
+To guide the design, a survey was conducted with 15 students, whose responses were analyzed to develop a list of "user stories". These stories helped clearly define the system’s specific requirements. Based on these requirements, the entity-relationship model (ERM) methodology was employed to create a robust and comprehensive database design that enables efficient management of daily activities within the residential complex.
 
-## Lista de Pendientes
+## Objectives
 
-- Pk y Fk: Definir cuales seran las llaves primarias y foraneas en las entidades
-- Step 7 Mer: Quitar las relaciones muchos a muchos que nos salgan (de 16 relaciones que encontre me salieron como 5)
-- Step 8 Mer: Volver a dibujar el diagrama con las relaciones bien definidas
-- Step 9 y 10 Mer: Definir la estructura de datos (si es string, int, varchar, etc) y  definir las restricciones y propiedades (si es null, unique, notnull, etc)
-- Organizar el informe en ingles y el github (en proceso)
+- **Resident Management:** Registration and maintenance of basic resident information.
+- **Guest Management:** Registration of guest data and control of their visits.
+- **Common Areas:** Administration and reservation of common areas such as halls, courts, and other facilities.
+- **Communication with Administration:** Facilitate interaction and tracking of requests or complaints from residents to the administration.
 
-Basicamente eso seria todo lo que falta. ojala no este tan mal lo que hice bro :)
+## Methodology
+
+1. **Surveys:** 15 students were surveyed to gain insights into needs and preferences related to residential complex management.
+2. **User Stories:** Based on the results, a list of user stories was developed to define the system's specific requirements.
+3. **Entity-Relationship Model (ERM):** This methodology was used to design a complete database model, ensuring that all required system functionalities are covered.
+
