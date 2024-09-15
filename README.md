@@ -38,6 +38,6 @@ On Arch Linux:
 This repository is being developed by students from the Universidad Distrital Francisco Jose de Caldas for their Database Fundamentals course in the Systems Engineering program.
 
 - [Brayan Estiven Aguirre Aristizabal - 20231020156](https://github.com/DrBider-dev)
-- [Marlon Yecid Riveros Guio - ]()
+- [Marlon Yecid Riveros Guio - 20231020208](https://github.com/Drack678?tab=overview&from=2024-09-01&to=2024-09-15)
 
 
