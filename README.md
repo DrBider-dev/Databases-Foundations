@@ -28,7 +28,8 @@ On Arch Linux:
 ```bash
     cd Databases-Foundations
 ```
-
+## WorkShops
+- [WorkShop_1](WorkShop_1/)
 
 
 ## Members
