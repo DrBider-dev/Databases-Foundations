@@ -1,5 +1,5 @@
 
-# DataBases Foundations
+# DataBases-Foundations
 
 The Database Fundamentals course introduces key concepts for database design, implementation, and administration, beginning with an overview of what a database is and how it differs from other information storage systems. Major data models, such as the relational model, are explored. The course covers database design using the entity-relationship model (ERM), which allows entities, attributes, and relationships to be represented graphically, and teaches the normalization process, which optimizes database structure by reducing redundancies and improving data integrity.
 
