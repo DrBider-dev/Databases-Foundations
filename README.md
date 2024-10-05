@@ -31,7 +31,7 @@ On Arch Linux:
 ```
 ## WorkShops
 - [WorkShop_1](WorkShop_1/)
-
+- [WorkShop_2](WorkShop_2/)
 
 ## Members
 
