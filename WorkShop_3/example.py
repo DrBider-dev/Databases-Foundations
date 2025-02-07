@@ -3,14 +3,16 @@ import pickle
 
 # Símbolos no comunes para separar columnas y filas
 COLUMN_SEPARATOR = "|"
-ROW_SEPARATOR = "¬"
+ROW_SEPARATOR = "\n"
 
 class Table:
-    def __init__(self, name, primary_key, columns):
+    def __init__(self,db_path, name, primary_key, columns):
+        self.db_path = db_path
         self.name = name
         self.primary_key = primary_key
         self.columns = columns
         self.data = []
+        self.file_path = f"{self.db_path}/{self.name}.txt"
 
     def insert(self, record):
         if len(record) != len(self.columns):
@@ -55,13 +57,13 @@ class Table:
         return result
 
     def _save_to_file(self):
-        with open(f"{self.name}.txt", "w", encoding="utf-8") as file:
+        with open(self.file_path, "w", encoding="utf-8") as file:
             for row in self.data:
                 file.write(COLUMN_SEPARATOR.join(map(str, row)) + ROW_SEPARATOR)
 
     def load_from_file(self):
-        if os.path.exists(f"{self.name}.txt"):
-            with open(f"{self.name}.txt", "r", encoding="utf-8") as file:
+        if os.path.exists(self.file_path):
+            with open(self.file_path, "r", encoding="utf-8") as file:
                 content = file.read().strip(ROW_SEPARATOR)
                 if content:
                     self.data = [row.split(COLUMN_SEPARATOR) for row in content.split(ROW_SEPARATOR)]
@@ -69,14 +71,17 @@ class Table:
 class Database:
     def __init__(self, name):
         self.name = name
+        self.db_path = f"./{name}"
         self.tables = {}
-        self.metadata_file = f"{name}_metadata.pkl"
+        self.metadata_file = f"{self.db_path}/metadata.pkl"
+        os.makedirs(self.db_path, exist_ok=True)
         self._load_metadata()
+        self._save_metadata()
 
     def create_table(self, table_name, primary_key, columns):
         if table_name in self.tables:
             return "Failure: Table already exists."
-        self.tables[table_name] = Table(table_name, primary_key, columns)
+        self.tables[table_name] = Table(self.db_path, table_name, primary_key, columns)
         self.tables[table_name]._save_to_file()
         self._save_metadata()
         return "Success: Table created."
@@ -100,7 +105,7 @@ class Database:
         
         parts = query.split()
         operation = parts[0].upper()
-        
+                
         if operation == "CREATE" and parts[1].upper() == "TABLE":
             table_name = parts[2]
             primary_key = parts[3]
@@ -141,6 +146,8 @@ class Database:
 
 
 class main:
+    
+    
     def run():
         db = None
         while True:
@@ -148,25 +155,24 @@ class main:
             if query.strip().upper() == "EXIT":
                 print("Exiting...")
                 break
-            if db is None and query.strip().upper().startswith("CREATE DATABASE"):
+            if (db is None and query.strip().upper().startswith("CREATE DATABASE")) or query.strip().upper().startswith("CREATE DATABASE"):
                 db_name = query.split()[2]
                 db = Database(db_name)
                 print(f"Database {db_name} created.")
+            
+            elif (db is None and query.strip().upper().startswith("USE")) or query.strip().upper().startswith("USE"):
+                db_name = query.split()[1]
+                if not os.path.exists(f"./{db_name}/metadata.pkl"):
+                    print(f"Failure: Database {db_name} doesn't exist.")
+                else:
+                    db = Database(db_name)
+                    print(f"Using database {db_name}.")
+
             elif db is not None:
                 result = db.execute_query(query)
                 print(result)
             else:
                 print("No database selected. Please create a database first.")
-
-
-        """db = Database("MyDatabase")
-        while True:
-            query = input("Enter your query: ")
-            if query.strip().upper() == "EXIT":
-                print("Exiting...")
-                break
-            result = db.execute_query(query)
-            print(result)"""
 
     if __name__ == "__main__":
         run()
