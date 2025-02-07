@@ -100,7 +100,13 @@ class Database:
         parts = query.split()
         operation = parts[0].upper()
         
-        if operation == "INSERT":
+        if operation == "CREATE" and parts[1].upper() == "TABLE":
+            table_name = parts[2]
+            primary_key = parts[3]
+            columns = parts[4].split(",")
+            return self.create_table(table_name, primary_key, columns)
+        
+        elif operation == "INSERT":
             table_name = parts[1]
             record = parts[2].split(",")
             return self.tables[table_name].insert(record)
@@ -127,7 +133,22 @@ class Database:
             return "Failure: Invalid query."
 
 # Ejemplo de uso
-db = Database("MyDatabase")
-print(db.create_table("Users", "id", ["id", "name", "email"]))
-print(db.execute_query("INSERT Users 1,John,john@example.com"))
-print(db.execute_query("SELECT Users *"))
+#db = Database("MyDatabase")
+#print(db.create_table("Users", "id", ["id", "name", "email"]))
+#print(db.execute_query("INSERT Users 1,John,john@example.com"))
+#print(db.execute_query("SELECT Users *"))
+
+
+class main:
+    def run():
+        db = Database("MyDatabase")
+        while True:
+            query = input("Enter your query: ")
+            if query.strip().upper() == "EXIT":
+                print("Exiting...")
+                break
+            result = db.execute_query(query)
+            print(result)
+
+    if __name__ == "__main__":
+        run()
