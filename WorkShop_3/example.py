@@ -77,6 +77,7 @@ class Database:
         if table_name in self.tables:
             return "Failure: Table already exists."
         self.tables[table_name] = Table(table_name, primary_key, columns)
+        self.tables[table_name]._save_to_file()
         self._save_metadata()
         return "Success: Table created."
 
