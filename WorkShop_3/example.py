@@ -142,14 +142,31 @@ class Database:
 
 class main:
     def run():
-        db = Database("MyDatabase")
+        db = None
+        while True:
+            query = input("Enter your query: ")
+            if query.strip().upper() == "EXIT":
+                print("Exiting...")
+                break
+            if db is None and query.strip().upper().startswith("CREATE DATABASE"):
+                db_name = query.split()[2]
+                db = Database(db_name)
+                print(f"Database {db_name} created.")
+            elif db is not None:
+                result = db.execute_query(query)
+                print(result)
+            else:
+                print("No database selected. Please create a database first.")
+
+
+        """db = Database("MyDatabase")
         while True:
             query = input("Enter your query: ")
             if query.strip().upper() == "EXIT":
                 print("Exiting...")
                 break
             result = db.execute_query(query)
-            print(result)
+            print(result)"""
 
     if __name__ == "__main__":
         run()
