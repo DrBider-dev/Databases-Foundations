@@ -26,6 +26,7 @@ class Table:
                     self.data = [row.split(COLUMN_SEPARATOR) for row in content.split(ROW_SEPARATOR)]
 
     def insert(self, record):
+        print(self.data)
         if len(record) != len(self.columns):
             return "Failure: Incorrect number of fields."
         
@@ -56,7 +57,31 @@ class Table:
                 self._save_to_file()
                 return "Success: Record updated."
         return "Failure: Primary key not found."
-
+    
+    def select_where(self,column,operator,key,key_value):
+        values = []
+        for row in self.data:
+            if operator == "=":
+                if row[self.columns.index(key)] == key_value:
+                    values .append(row[self.columns.index(column)])
+            elif operator == "<":
+                if row[self.columns.index(key)] < key_value:
+                    values.append(row[self.columns.index(column)])
+            elif operator == ">":
+                if row[self.columns.index(key)] > key_value:
+                    values .append(row[self.columns.index(column)])
+            elif operator == "<=":
+                if row[self.columns.index(key)] <= key_value:
+                    values .append(row[self.columns.index(column)])
+            elif operator == ">=":
+                if row[self.columns.index(key)] >= key_value:
+                    values .append(row[self.columns.index(column)])
+            elif operator == "!=":
+                if row[self.columns.index(key)] != key_value:
+                    values .append(row[self.columns.index(column)])
+            else:
+                values.append("Failure: Invalid operator.")
+        return values
     def delete(self):
         self.data[:] = []
         self._save_to_file()
@@ -74,12 +99,8 @@ class Table:
         os.remove(self.file_path)
         return "Success: Table dropped."
 
-    def select(self, columns=None, condition=None):
+    def select(self, column):
         result = []
         for row in self.data:
-            if condition is None or condition(row):
-                if columns is None:
-                    result.append(row)
-                else:
-                    result.append([row[self.columns.index(col)] for col in columns])
+            result.append(row[self.columns.index(column)])
         return result

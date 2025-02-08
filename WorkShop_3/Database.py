@@ -1,8 +1,6 @@
 import os
 import pickle
 import Table
-import re
-import operator
 
 class Database:
 
@@ -39,63 +37,6 @@ class Database:
                     self.tables[table_name] = Table.Table(self.name, table_name, primary_key, columns)
                     self.tables[table_name].load_from_file()
 
-    def select(self, columns=None, condition=None):
-        results = []
-        for record in self.records:
-            if condition:
-                try:
-                    if not self._evaluate_condition(record, condition):
-                        continue  # Si la condición es falsa, ignoramos el registro
-                except Exception as e:
-                    return f"Error en la condición: {str(e)}"
-
-            results.append({col: record[col] for col in (columns or self.columns)})
-        return results
-
-    def _evaluate_condition(self, record, condition):
-        OPERATORS = {
-        "=": operator.eq,
-        "!=": operator.ne,
-        ">": operator.gt,
-        "<": operator.lt,
-        ">=": operator.ge,
-        "<=": operator.le
-        }
-        tokens = re.split(r"(\s+AND\s+|\s+OR\s+)", condition)  # Separar condiciones
-        results = []
-
-        for token in tokens:
-            token = token.strip()
-            if token in ["AND", "OR"]:
-                results.append(token)  # Guardamos operador lógico
-                continue
-            
-            match = re.match(r"(\w+)\s*([=<>!]+)\s*'?(.*?)'?$", token)
-            if not match:
-                raise ValueError(f"Condición inválida: {token}")
-
-            col, op, value = match.groups()
-            if col not in record:
-                raise ValueError(f"Columna {col} no encontrada")
-
-            # Convertir valor al tipo correcto
-            if value.isdigit():
-                value = int(value)
-
-            results.append(OPERATORS[op](record[col], value))
-
-        # Evaluar condiciones usando `AND` y `OR`
-        while "OR" in results or "AND" in results:
-            for i in range(len(results)):
-                if results[i] == "AND":
-                    results[i - 1] = results[i - 1] and results[i + 1]
-                    del results[i:i + 2]
-                    break
-                elif results[i] == "OR":
-                    results[i - 1] = results[i - 1] or results[i + 1]
-                    del results[i:i + 2]
-                    break
-        return results[0]  # Devolver resultado final de la evaluación
 
     def execute_query(self, query):
         if query.strip().upper() == "EXIT":
@@ -165,16 +106,29 @@ class Database:
                 return f"Success: Table {table_name} dropped."
             return "Failure: Table doesn't exist."
         
-        elif operation == "SELECT":
-            table_name = parts[1]
-            columns = parts[2].split(",") if parts[2] != "*" else None
-            condition = None
+        elif operation == "SELECT" and parts[2].upper() == "FROM":
+            column = parts[1]
+            table_name = parts[3]
+            if table_name not in self.tables:
+                return f"Failure: Table {table_name} doesn't exist."
+            elif column == "*":
+                for row in self.tables[table_name].data:
+                    print("|".join(str(data) for data in row))
 
-            if "WHERE" in parts:
-                where_index = parts.index("WHERE")
-                condition = " ".join(parts[where_index + 1:])  
-
-            return self.tables[table_name].select(columns, condition)
-        
+            elif len(parts) == 4:
+                for row in self.tables[table_name].data:
+                    print(row[self.tables[table_name].columns.index(column)])
+                    
+            elif len(parts) > 4 and parts[4].upper() == "WHERE":
+                if len(parts) < 8:
+                    return "Failure: Invalid query."
+                key = parts[5]
+                operator = parts[6]
+                key_value = parts[7]
+                values = self.tables[table_name].select_where(column,operator,key, key_value)
+                if not values:
+                    return "Failure: No records found."
+                for value in values:
+                    print(value)
         else:
             return "Failure: Invalid query."
