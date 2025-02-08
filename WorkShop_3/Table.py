@@ -57,10 +57,6 @@ class Table:
         return "Failure: Primary key not found."
     
     def select_where(self,column,operator,key,key_value):
-        if column not in self.columns:
-            return f"Failure: Column '{column}' doesn't exist."
-        if key not in self.columns:
-            return f"Failure: Key '{key}' doesn't exist."
         values = []  
         for row in self.data:
             if operator == "=":
