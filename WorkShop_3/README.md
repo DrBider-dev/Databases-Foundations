@@ -15,7 +15,7 @@ UDSQL is a lightweight, file-based database management system (DBMS) developed a
 ## Installation & Usage
 1. Clone the repository:
    ```bash
-   git clone <https://github.com/DrBider-dev/Databases-Foundations.git>
+   git clone https://github.com/DrBider-dev/Databases-Foundations.git
    cd Databases-Foundations/WorkShop_3
    ```
 2. Run the application:
