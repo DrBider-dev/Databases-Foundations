@@ -98,9 +98,3 @@ class Table:
     def drop(self):
         os.remove(self.file_path)
         return "Success: Table dropped."
-
-    def select(self, column):
-        result = []
-        for row in self.data:
-            result.append(row[self.columns.index(column)])
-        return result
