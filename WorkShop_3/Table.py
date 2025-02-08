@@ -26,11 +26,9 @@ class Table:
                     self.data = [row.split(COLUMN_SEPARATOR) for row in content.split(ROW_SEPARATOR)]
 
     def insert(self, record):
-        print(self.data)
         if len(record) != len(self.columns):
             return "Failure: Incorrect number of fields."
-        
-        # Verificar si la clave primaria ya existe
+
         pk_value = record[self.columns.index(self.primary_key)]
         for row in self.data:
             if row[self.columns.index(self.primary_key)] == pk_value:
@@ -59,7 +57,11 @@ class Table:
         return "Failure: Primary key not found."
     
     def select_where(self,column,operator,key,key_value):
-        values = []
+        if column not in self.columns:
+            return f"Failure: Column '{column}' doesn't exist."
+        if key not in self.columns:
+            return f"Failure: Key '{key}' doesn't exist."
+        values = []  
         for row in self.data:
             if operator == "=":
                 if row[self.columns.index(key)] == key_value:

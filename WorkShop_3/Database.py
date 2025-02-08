@@ -113,11 +113,11 @@ class Database:
                 return f"Failure: Table {table_name} doesn't exist."
             elif column == "*":
                 for row in self.tables[table_name].data:
-                    print("|".join(str(data) for data in row))
+                    return "|".join(str(data) for data in row)
 
             elif len(parts) == 4:
                 for row in self.tables[table_name].data:
-                    print(row[self.tables[table_name].columns.index(column)])
+                    return row[self.tables[table_name].columns.index(column)]
                     
             elif len(parts) > 4 and parts[4].upper() == "WHERE":
                 if len(parts) < 8:
@@ -126,9 +126,6 @@ class Database:
                 operator = parts[6]
                 key_value = parts[7]
                 values = self.tables[table_name].select_where(column,operator,key, key_value)
-                if not values:
-                    return "Failure: No records found."
-                for value in values:
-                    print(value)
+                return values
         else:
             return "Failure: Invalid query."
